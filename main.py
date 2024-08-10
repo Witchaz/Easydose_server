@@ -10,18 +10,11 @@ from PIL import Image
 
 app = Flask(__name__)
 
-# current_path = os.getcwd()
-# abs_path = os.path.join(current_path,"Tesseract-OCR","tesseract.exe")
-# pytesseract.pytesseract.tesseract_cmd = abs_path
-
 def detect_text(content):
     """Detects text in the file."""
     from google.cloud import vision
-
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS']
     client = vision.ImageAnnotatorClient()
-
-    # with open(path, "rb") as image_file:
-    #     content = image_file.read()
 
     image = vision.Image(content=content)
 
