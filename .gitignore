@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+Tesseract-OCR/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -51,6 +52,7 @@ coverage.xml
 .pytest_cache/
 cover/
 test.py
+test2.py
 
 # Translations
 *.mo
@@ -130,6 +132,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+vision_key.json
 
 # Spyder project settings
 .spyderproject
