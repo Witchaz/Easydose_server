@@ -1,11 +1,10 @@
 import os,base64
-from flask import Flask,request,template_rendered
+from flask import Flask,request,jsonify
 from PIL import Image
 import os
 from numpy import random
 from collections import Counter
 from google.cloud import vision
-from PIL import Image
 
 app = Flask(__name__)
 
@@ -47,8 +46,8 @@ def ocr():
         return result
     except FileExistsError as exception:
         return "Invalid file"
-    # except Exception as e:
-    #     return str(e) 
+    except Exception as e:
+        return jsonify(os.listdir('/app'))
 
 if __name__ =="__main__":
     app.run(debug=True)
