@@ -1,5 +1,5 @@
 import pytesseract,os
-from flask import Flask,request
+from flask import Flask,request,template_rendered
 from PIL import Image
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ abs_path = os.path.join(current_path,"Tesseract-OCR","tesseract.exe")
 pytesseract.pytesseract.tesseract_cmd = abs_path
 @app.route('/')
 def home():    
-    return "Hello World"
+    return template_rendered.render('home.html')
 
 @app.route('/ocr',methods=['POST'])
 def ocr():
