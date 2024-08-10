@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 ENV GOOGLE_APPLICATION_CREDENTIALS="/app/vision_key.json"
 
 # Copy credentials file
-COPY credentials.json /app/credentials.json
+COPY vision_key.json /app/vision_key.json
 
 # Run the application
 CMD ["python", "main.py"]
