@@ -47,8 +47,8 @@ def ocr():
         return result
     except FileExistsError as exception:
         return "Invalid file"
-    except Exception as e:
-        return str(e) 
+    # except Exception as e:
+    #     return str(e) 
 
 if __name__ =="__main__":
     app.run(debug=True)
