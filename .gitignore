@@ -133,7 +133,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-# vision_key.json
+easydose_key.json
 
 # Spyder project settings
 .spyderproject
