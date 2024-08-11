@@ -135,6 +135,7 @@ env.bak/
 venv.bak/
 easydose_key.json
 vision_key.json
+gemini_key.json
 
 # Spyder project settings
 .spyderproject

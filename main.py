@@ -1,19 +1,23 @@
 import os,base64
-from flask import Flask,request,jsonify
-from PIL import Image
-import os
-from numpy import random
-from collections import Counter
+from flask import Flask,request
+import google.generativeai as genai
 from google.cloud import vision
 
+
 app = Flask(__name__)
+
+os.environ["API_KEY"] = "AIzaSyCW6lXrGtIbxu4eAa5VXOsIGHv41cm-7MQ"
+genai.configure(api_key=os.environ["API_KEY"])
+
+model = genai.GenerativeModel('gemini-1.5-flash',generation_config={
+    "max_output_tokens":500
+})
 
 def detect_text(content):
     """Detects text in the file."""
     from google.cloud import vision
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
     client = vision.ImageAnnotatorClient()
-
     image = vision.Image(content=content)
 
     response = client.text_detection(image=image)
@@ -42,13 +46,15 @@ def ocr():
         # แปลง base64 string กลับเป็น binary
         image_data = base64.b64decode(data)
         # เรียกใช้ฟังก์ชัน OCR
-        result = detect_text(image_data)
-        return result
+        data = detect_text(image_data)
+        question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกี่เวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
+        result = model.generate_content(data+question)
+        return result.text
     except FileExistsError as exception:
         return "Invalid file"
-    # except Exception as e:
-    #     print(str(e))
-    #     return jsonify(os.listdir('/'))
+    except Exception as e:
+        
+        return str(e)
 
 if __name__ =="__main__":
     app.run(debug=True)
