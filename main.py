@@ -47,7 +47,7 @@ def ocr():
     except FileExistsError as exception:
         return "Invalid file"
     except Exception as e:
-        return jsonify(os.listdir('/app'))
+        return jsonify(os.listdir('/'))
 
 if __name__ =="__main__":
     app.run(debug=True)
