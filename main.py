@@ -15,7 +15,7 @@ model = genai.GenerativeModel('gemini-1.5-flash',generation_config={
 
 def detect_text(content):
     """Detects text in the file."""
-    from google.cloud import vision
+    # from google.cloud import vision
     # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
     client = vision.ImageAnnotatorClient()
     image = vision.Image(content=content)
