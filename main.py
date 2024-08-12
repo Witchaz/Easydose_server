@@ -54,10 +54,15 @@ def ocr():
         }
         return response
     except FileExistsError as exception:
-        return "Invalid file"
+        response = {
+            "text": "Invalid file"
+        }
+        return response
     except Exception as e:
-        
-        return str(e)
+        response = {
+            "text": str(e)
+        }
+        return response
 
 if __name__ =="__main__":
     app.run(host="0.0.0.0", debug=True)
