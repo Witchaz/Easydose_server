@@ -49,7 +49,10 @@ def ocr():
         data = detect_text(image_data)
         question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกี่เวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
         result = model.generate_content(data+question)
-        return result.text
+        response = {
+            "text": result.text
+        }
+        return response
     except FileExistsError as exception:
         return "Invalid file"
     except Exception as e:
@@ -57,5 +60,5 @@ def ocr():
         return str(e)
 
 if __name__ =="__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
 
