@@ -47,7 +47,7 @@ def ocr():
         image_data = base64.b64decode(data)
         # เรียกใช้ฟังก์ชัน OCR
         data = detect_text(image_data)
-        question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกี่เวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
+        question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปแล้วตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกินเวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
         result = model.generate_content(data+question)
         response = {
             "text": result.text
