@@ -16,7 +16,7 @@ model = genai.GenerativeModel('gemini-1.5-flash',generation_config={
 def detect_text(content):
     """Detects text in the file."""
     # from google.cloud import vision
-    # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
     client = vision.ImageAnnotatorClient()
     image = vision.Image(content=content)
 
@@ -34,7 +34,7 @@ def detect_text(content):
     
     return ans
 
-@app.route('/')
+@app.route('/',methods=['POST'])
 def home():    
     return "Hello world!"
 
@@ -56,8 +56,10 @@ def ocr():
     except FileExistsError as exception:
         return "Invalid file"
     except Exception as e:
-        
-        return str(e)
+        response = {
+            "text": str(e.with_traceback())
+        }
+        return response
 
 if __name__ =="__main__":
     app.run(host="0.0.0.0", debug=True)
