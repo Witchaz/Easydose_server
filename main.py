@@ -1,5 +1,5 @@
 import os,base64
-from flask import Flask,request
+from flask import Flask,request, jsonify
 import google.generativeai as genai
 from google.cloud import vision
 
@@ -16,7 +16,7 @@ model = genai.GenerativeModel('gemini-1.5-flash',generation_config={
 def detect_text(content):
     """Detects text in the file."""
     # from google.cloud import vision
-    # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'vision_key.json'
     client = vision.ImageAnnotatorClient()
     image = vision.Image(content=content)
 
@@ -34,7 +34,7 @@ def detect_text(content):
     
     return ans
 
-@app.route('/')
+@app.route('/',methods=['POST'])
 def home():    
     return "Hello world!"
 
@@ -47,22 +47,19 @@ def ocr():
         image_data = base64.b64decode(data)
         # เรียกใช้ฟังก์ชัน OCR
         data = detect_text(image_data)
-        question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกี่เวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
+        question = f"\nเราจะถามคำถามจากข้อมูลที่ให้ไปแล้วตอบให้กระชับที่สุด\n1)ยาตัวนี้มีชื่อว่าอะไร\n2)ยาตัวนี้ต้องกินเวลาไหน\n3)ยาตัวนี้กินครั้งละกี่เม็ด"
         result = model.generate_content(data+question)
         response = {
             "text": result.text
         }
-        return response
+        return jsonify(response) 
     except FileExistsError as exception:
-        response = {
-            "text": "Invalid file"
-        }
-        return response
+        return jsonify({"error": "Invalid file"}), 400
     except Exception as e:
         response = {
-            "text": str(e)
+            "error": str(e)
         }
-        return response
+        return jsonify(response), 500
 
 if __name__ =="__main__":
     app.run(host="0.0.0.0", debug=True)
