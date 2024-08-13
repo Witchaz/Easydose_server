@@ -1,5 +1,5 @@
 import os,base64
-from flask import Flask,request
+from flask import Flask,request, jsonify
 import google.generativeai as genai
 from google.cloud import vision
 
@@ -52,14 +52,14 @@ def ocr():
         response = {
             "text": result.text
         }
-        return response
+        return jsonify(response) 
     except FileExistsError as exception:
-        return "Invalid file"
+        return jsonify({"error": "Invalid file"}), 400
     except Exception as e:
         response = {
-            "text": str(e.with_traceback())
+            "error": str(e)
         }
-        return response
+        return jsonify(response), 500
 
 if __name__ =="__main__":
     app.run(host="0.0.0.0", debug=True)
